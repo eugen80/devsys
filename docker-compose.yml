@@ -7,10 +7,10 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./nginx/ssl:/etc/nginx/ssl
-      - ./nginx/logs:/var/log/nginx
-      - ./public_html:/var/www/html
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./docker/nginx/ssl:/etc/nginx/ssl
+      - ./docker/nginx/logs:/var/log/nginx
+      - ./app:/var/www/html
     depends_on:
       - php
       - mariadb
@@ -18,7 +18,7 @@ services:
   php:
     image: php:8-fpm
     volumes:
-      - ./public_html:/var/www/html
+      - ./app:/var/www/html
     depends_on:
       - mariadb
 
@@ -30,7 +30,7 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
-      - ./mariadb/data:/var/lib/mysql
+      - ./docker/mariadb/data:/var/lib/mysql
     ports:
       - "3306:3306"
     env_file:
